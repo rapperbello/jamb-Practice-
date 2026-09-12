@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.png" type="image/png">
+<script async src="https://js.paystack.co/v2/inline.js"></script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-522PB3SV');</script>
+<!-- End Google Tag Manager -->
+<title>JAMB Practice</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:#f2f4f7;color:#222}
+.page{max-width:700px;margin:25px auto;padding:24px;background:#fff;border-radius:18px;box-shadow:0 4px 18px #0002}
+h1,h2,h3{text-align:center}
+input[type=text]{width:90%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+button{padding:12px 18px;margin:6px;border:0;border-radius:10px;font-size:16px;cursor:pointer}
+.primary{font-weight:bold;width:85%}
+.subject-box{text-align:left;max-width:480px;margin:auto}
+.subject-item{display:flex;gap:10px;align-items:center;padding:11px;margin:6px 0;background:#f6f6f6;border-radius:9px}
+.subject-item input{width:auto}
+#timer{font-size:20px;font-weight:bold;text-align:center}
+#score,#progress,#subjectProgress{text-align:center;font-weight:bold}
+.question{padding:20px;background:#fafafa;border-radius:15px;margin-top:15px}
+.answer{display:block;width:95%;text-align:left;margin:9px auto}
+#message{text-align:center;font-weight:bold;min-height:25px}
+.creator{text-align:center;font-weight:bold;letter-spacing:1px;margin:12px 0}
+.nav{display:flex;flex-wrap:wrap;justify-content:center;margin-top:15px}
+.nav button{width:44px;height:44px;padding:0}
+.nav .current{outline:3px solid #777}
+.nav .answered{font-weight:bold}
+.result-row{display:flex;justify-content:space-between;padding:12px;background:#f7f7f7;margin:6px 0;border-radius:8px}
+.small{text-align:center;color:#666}
+
+.premium-card{margin:22px auto;padding:16px;background:#f7f7f7;border-radius:14px;max-width:480px;text-align:center}
+.premium-card button{font-weight:bold}
+
+.hero-card{padding:20px;margin:18px 0;background:#f5f7fa;border-radius:16px;text-align:center}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.feature{padding:14px;background:#f7f7f7;border-radius:12px;text-align:left}
+.feature span{font-size:13px;color:#666}
+.premium-card,.school-card{margin:18px auto;padding:18px;background:#f7f7f7;border-radius:14px;max-width:560px;text-align:center}
+.price-row{display:flex;flex-wrap:wrap;justify-content:center}
+.price-row button{font-weight:bold}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-522PB3SV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="home" class="page">
+<h1>📚 JAMB Practice</h1>
+<p class="small">Practice smarter. Prepare better. 🎯</p>
+<img src="jamb-logo.jpg" alt="JAMB Practice logo" style="width:90px;height:90px;object-fit:contain;border-radius:16px;display:block;margin:10px auto">
+
+<div class="hero-card">
+<h2>🎓 Welcome to JAMB Practice</h2>
+<p>Prepare for UTME with practice, mock exams and performance tracking.</p>
+</div>
+
+<input id="studentName" type="text" placeholder="Enter your name">
+
+<br><br>
+<button class="primary" onclick="openSubjects()">Start Free Practice 🚀</button>
+<div class="premium-card"><h3>⭐ Premium Practice</h3><p>Unlimited explanations, advanced practice, premium question sets, progress insights and fewer distractions.</p><button onclick="showPremium()">💳 View Premium Plans</button></div>
+
+<div class="feature-grid">
+<div class="feature"><strong>🆓 Free Practice</strong><br><span>Try questions before Premium.</span></div>
+<div class="feature"><strong>⭐ Premium</strong><br><span>More practice and full mock exams.</span></div>
+<div class="feature"><strong>📊 Results</strong><br><span>See your score and progress.</span></div>
+<div class="feature"><strong>🏫 Schools</strong><br><span>School dashboard can be added later.</span></div>
+</div>
+
+<div class="premium-card">
+<h3>⭐ Premium Practice</h3>
+<p>Premium can include unlimited practice, full CBT mocks, detailed performance and no ads.</p>
+<div class="price-row">
+<button onclick="showPremiumPlan('7 days','₦700')">₦700 / 7 days</button>
+<button onclick="showPremiumPlan('30 days','₦1,700')">₦1,700 / 30 days</button>
+<button onclick="showPremiumPlan('2 months','₦2,500')">₦2,500 / 2 months</button>
+</div>
+<p id="premiumNote" class="small"></p>
+</div>
+
+<div class="school-card">
+<h3>🏫 School / CBT Centre</h3>
+<p>Future package: teacher dashboard, student accounts, exams, automatic marking and class results.</p>
+<button onclick="showSchoolNote()">School Package</button>
+<p id="schoolNote" class="small"></p>
+</div>
+</div>
+
+<div id="subjectsPage" class="page" style="display:none">
+<h1>Choose 4 Subjects</h1>
+<p class="small">English is normally one of the four subjects in a JAMB UTME combination.</p>
+<p id="selectionMessage" class="small"></p>
+<div class="premium-card"><strong>Choose Difficulty</strong><br><button onclick="setDifficulty('Easy')" id="easyBtn">Easy · 4 min</button><button onclick="setDifficulty('Normal')" id="normalBtn">Normal · 2 min</button><button onclick="setDifficulty('Difficult')" id="hardBtn">Difficult · 1 min</button><p id="difficultyNote" class="small">Normal selected</p></div>
+<div class="subject-box">
+<h3>📚 All Approved UTME Subjects</h3>
+<p class="small">Select exactly 4 subjects. English is selected by default.</p>
+<label class="subject-item"><input type="checkbox" value="English" class="subjectCheck" checked>English</label>
+<label class="subject-item"><input type="checkbox" value="Agricultural Science" class="subjectCheck" >Agricultural Science</label>
+<label class="subject-item"><input type="checkbox" value="Arabic" class="subjectCheck" >Arabic</label>
+<label class="subject-item"><input type="checkbox" value="Art" class="subjectCheck" >Art</label>
+<label class="subject-item"><input type="checkbox" value="Biology" class="subjectCheck" >Biology</label>
+<label class="subject-item"><input type="checkbox" value="Chemistry" class="subjectCheck" >Chemistry</label>
+<label class="subject-item"><input type="checkbox" value="Christian Religious Studies" class="subjectCheck" >Christian Religious Studies</label>
+<label class="subject-item"><input type="checkbox" value="Commerce" class="subjectCheck" >Commerce</label>
+<label class="subject-item"><input type="checkbox" value="Computer Studies" class="subjectCheck" >Computer Studies</label>
+<label class="subject-item"><input type="checkbox" value="Economics" class="subjectCheck" >Economics</label>
+<label class="subject-item"><input type="checkbox" value="French" class="subjectCheck" >French</label>
+<label class="subject-item"><input type="checkbox" value="Geography" class="subjectCheck" >Geography</label>
+<label class="subject-item"><input type="checkbox" value="Government" class="subjectCheck" >Government</label>
+<label class="subject-item"><input type="checkbox" value="Hausa" class="subjectCheck" >Hausa</label>
+<label class="subject-item"><input type="checkbox" value="History" class="subjectCheck" >History</label>
+<label class="subject-item"><input type="checkbox" value="Home Economics" class="subjectCheck" >Home Economics</label>
+<label class="subject-item"><input type="checkbox" value="Igbo" class="subjectCheck" >Igbo</label>
+<label class="subject-item"><input type="checkbox" value="Islamic Studies" class="subjectCheck" >Islamic Studies</label>
+<label class="subject-item"><input type="checkbox" value="Literature in English" class="subjectCheck" >Literature in English</label>
+<label class="subject-item"><input type="checkbox" value="Mathematics" class="subjectCheck" >Mathematics</label>
+<label class="subject-item"><input type="checkbox" value="Music" class="subjectCheck" >Music</label>
+<label class="subject-item"><input type="checkbox" value="Physical and Health Education" class="subjectCheck" >Physical and Health Education</label>
+<label class="subject-item"><input type="checkbox" value="Physics" class="subjectCheck" >Physics</label>
+<label class="subject-item"><input type="checkbox" value="Principles of Accounts" class="subjectCheck" >Principles of Accounts</label>
+<label class="subject-item"><input type="checkbox" value="Yoruba" class="subjectCheck" >Yoruba</label>
+</div>
+<br>
+<button class="primary" onclick="startExam()">Start Exam 🚀</button>
+<br>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="quiz" class="page" style="display:none">
+<h1>JAMB Practice</h1>
+<h2 id="studentDisplay"></h2>
+<h2 id="subjectName"></h2>
+<p id="subjectProgress"></p>
+<p id="score">Score: 0/12</p>
+<p id="progress">Question 1 of 12</p>
+<p id="timer">Time: 05:00</p>
+<p id="message"></p>
+<button onclick="showExplanation()">💡 Explanation</button>
+<p id="explanation" class="small"></p>
+
+<div class="question">
+<h2 id="questionText"></h2>
+<div id="answers"></div>
+<button id="nextButton" onclick="nextQuestion()">Next Question</button>
+</div>
+
+<h3>Question Navigation</h3>
+<div id="questionNav" class="nav"></div>
+</div>
+
+<div id="result" class="page" style="display:none">
+<h1>Exam Completed 🎉</h1>
+<h2 id="finalStudent"></h2>
+<h2 id="totalScore"></h2>
+<h2 id="percentage"></h2>
+<h2 id="grade"></h2>
+<div id="subjectResults"></div>
+<button onclick="restartExam()">🔄 Try Again</button>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="premiumModal" style="display:none;position:fixed;inset:0;background:#0008;padding:20px;z-index:99">
+<div class="page" style="margin:40px auto">
+<h2>⭐ JAMB Practice Premium</h2><p class="small">Select a plan. Real payment will use your Paystack public key.</p>
+<input id="premiumEmail" type="text" placeholder="Email address">
+<div class="price-row"><button onclick="payPremium('7days')">₦700 / 7 days</button><button onclick="payPremium('30days')">₦1,700 / 30 days</button><button onclick="payPremium('2months')">₦2,500 / 2 months</button></div>
+<p id="premiumMessage" class="small"></p><button onclick="closePremium()">Close</button>
+</div></div>
+
+<script>
+const QUESTION_COUNT=12;
+const TIME_BY_DIFFICULTY={Easy:240,Normal:120,Difficult:60};
+const FREE_EXPLANATIONS=3;
+const PAYSTACK_PUBLIC_KEY="PASTE_YOUR_LIVE_PUBLIC_KEY_HERE";
+let difficulty="Normal", explanationUses=Number(localStorage.getItem("jambExplanationUses")||0);
+
+const questionBank={
+English:[
+["Choose the correct option: She ___ to school every day.",["go","goes","going","gone"],1],
+["Choose the opposite of 'ancient'.",["old","modern","past","former"],1],
+["Choose the synonym of 'happy'.",["sad","angry","joyful","weak"],2],
+["Which word is a noun?",["beautiful","quickly","teacher","run"],2],
+["Choose the correct spelling.",["receive","recieve","receeve","receve"],0],
+["The opposite of 'victory' is:",["success","defeat","win","prize"],1],
+["Which word is an adjective?",["beauty","beautiful","beautifully","beautify"],1],
+["Choose the correct sentence.",["He don't know.","He doesn't know.","He doesn't knows.","He not know."],1],
+["A person who writes books is called a:",["reader","writer","driver","farmer"],1],
+["The plural of 'child' is:",["childs","childes","children","childrens"],2],
+["Choose the synonym of 'brave'.",["cowardly","fearful","courageous","weak"],2],
+["Which word is a verb?",["jump","beautiful","happiness","slowly"],0]
+],
+Mathematics:[
+["What is 12 + 8?",["18","20","22","24"],1],["What is 15 - 7?",["6","7","8","9"],2],["What is 6 × 4?",["20","24","26","28"],1],["What is 36 ÷ 6?",["4","5","6","7"],2],["What is 25% of 100?",["20","25","30","40"],1],["If x + 5 = 12, find x.",["5","6","7","8"],2],["What is 3²?",["6","8","9","12"],2],["What is the square root of 49?",["6","7","8","9"],1],["What is 2/4 in simplest form?",["1/2","1/3","2/3","3/4"],0],["What is 5 + 3 × 2?",["16","11","13","10"],1],["A triangle has how many sides?",["2","3","4","5"],1],["What is 10% of 200?",["10","20","30","40"],1]
+],
+Physics:[
+["What is the SI unit of force?",["Joule","Newton","Watt","Pascal"],1],["What is the SI unit of energy?",["Newton","Joule","Watt","Volt"],1],["Speed is distance divided by:",["mass","time","force","energy"],1],["Which instrument measures temperature?",["barometer","thermometer","ammeter","voltmeter"],1],["The force that pulls objects toward Earth is:",["friction","gravity","tension","pressure"],1],["The SI unit of electric current is:",["Volt","Ohm","Ampere","Watt"],2],["Light travels fastest through:",["water","glass","vacuum","oil"],2],["Which device converts electrical energy to mechanical energy?",["motor","battery","resistor","switch"],0],["The unit of power is:",["Joule","Watt","Newton","Ohm"],1],["A device used to measure electric current is:",["ammeter","thermometer","barometer","ruler"],0],["Which is a form of energy?",["sound","mass","length","distance"],0],["Friction generally opposes:",["motion","mass","weight","temperature"],0]
+],
+Chemistry:[
+["Chemical symbol for oxygen?",["O","Ox","C","H"],0],["Chemical symbol for hydrogen?",["H","Hy","He","Hg"],0],["Water has the formula:",["CO2","H2O","O2","NaCl"],1],["Common salt is:",["NaCl","HCl","NaOH","CO2"],0],["pH of a neutral solution is approximately:",["1","5","7","14"],2],["Which gas is needed for respiration?",["oxygen","nitrogen","carbon dioxide","hydrogen"],0],["Carbon dioxide has the formula:",["CO","CO2","C2O","CaO"],1],["Which of these is a metal?",["oxygen","iron","chlorine","sulfur"],1],["The smallest unit of an element is an:",["atom","organ","cell","acid"],0],["Na is the symbol for:",["nitrogen","sodium","neon","nickel"],1],["Which is an acid?",["HCl","NaOH","NaCl","H2O"],0],["The periodic table contains:",["elements","organs","cells","planets"],0]
+],
+Biology:[
+["The basic unit of life is the:",["tissue","cell","organ","system"],1],["Which organ pumps blood?",["lung","heart","kidney","liver"],1],["Plants make food through:",["respiration","photosynthesis","digestion","excretion"],1],["Which gas do plants use during photosynthesis?",["oxygen","nitrogen","carbon dioxide","hydrogen"],2],["The human breathing organ is the:",["heart","lung","kidney","stomach"],1],["Which organ removes waste from blood?",["kidney","heart","brain","skin"],0],["Animals that eat only plants are:",["carnivores","herbivores","omnivores","parasites"],1],["The brain is part of the:",["digestive system","nervous system","respiratory system","skeletal system"],1],["Which part of a plant absorbs water?",["flower","root","fruit","leaf"],1],["The green pigment in leaves is:",["chlorophyll","haemoglobin","melanin","insulin"],0],["Humans belong to the group called:",["mammals","reptiles","fish","insects"],0],["Which blood cells help fight infection?",["red blood cells","white blood cells","platelets","plasma"],1]
+],
+"Agricultural Science":[
+["Removal of unwanted plants from a farm is:",["weeding","harvesting","planting","grazing"],0],["Which animal commonly provides milk?",["cow","chicken","fish","goatfish"],0],["A young plant is called a:",["seedling","fruit","root","grain"],0],["Which is a farm tool?",["hoe","radio","television","phone"],0],["Keeping bees is called:",["apiculture","poultry","fishery","forestry"],0],["Crop commonly used to produce palm oil:",["oil palm","maize","rice","yam"],0],["Keeping chickens is called:",["poultry farming","fish farming","forestry","apiculture"],0],["Which is a cereal crop?",["maize","cassava","yam","potato"],0],["Fish farming is called:",["apiculture","aquaculture","poultry","forestry"],1],["Natural home of an animal is its:",["habitat","farm","pen","store"],0],["Which animal is a ruminant?",["cow","chicken","fish","rabbit"],0],["Gathering mature crops is:",["harvesting","weeding","ploughing","irrigation"],0]
+],
+Literature:[
+["A poem is a form of:",["literature","mathematics","science","geography"],0],["A person who writes a play is a:",["dramatist","farmer","chemist","pilot"],0],["A story with imaginary characters is called:",["fiction","fact","report","notice"],0],["The main character in a story is the:",["protagonist","audience","author","editor"],0],["A comparison using 'like' or 'as' is:",["simile","irony","pun","plot"],0],["A play is normally divided into:",["acts","chapters only","verses only","sentences"],0],["A person who writes a novel is the:",["novelist","actor","director","audience"],0],["A story's sequence of events is its:",["plot","theme","tone","title"],0],["The central idea of a literary work is its:",["theme","plot","character","setting"],0],["The place where a story happens is the:",["setting","theme","plot","conflict"],0],["A poem is commonly arranged in:",["stanzas","chapters","paragraphs only","acts"],0],["The people watching a play are the:",["audience","cast","author","writer"],0]
+],
+Government:[
+["Government is mainly concerned with:",["management of society","farming","cooking","medicine"],0],["Democracy means government by:",["the people","one person","the army","a king only"],0],["The constitution is:",["a fundamental law","a newspaper","a school book","a budget"],0],["The legislature makes:",["laws","weather","food","roads only"],0],["The judiciary interprets:",["laws","weather","music","sports"],0],["The executive mainly:",["implements laws","writes novels","teaches chemistry","prints newspapers"],0],["An election is used to:",["choose representatives","build houses","grow crops","make food"],0],["A citizen is a:",["legal member of a state","tourist only","foreigner only","visitor"],0],["Rule of law means:",["everyone is subject to the law","leaders are above the law","only students obey laws","laws do not matter"],0],["A political party seeks to:",["gain political power","sell food","build schools only","run hospitals only"],0],["Voting is an example of:",["political participation","farming","trade","manufacturing"],0],["Three arms of government demonstrate:",["separation of powers","monarchy","dictatorship","colonialism"],0]
+],
+Economics:[
+["Economics studies how people use:",["scarce resources","unlimited resources","only money","only land"],0],["The basic economic problem is:",["scarcity","abundance","weather","language"],0],["Demand refers to:",["willingness and ability to buy","production only","saving only","export only"],0],["Supply refers to:",["quantity offered for sale","money saved","population","tax"],0],["A market is a place where:",["buyers and sellers interact","only farmers work","only students study","only banks operate"],0],["Inflation is a sustained rise in:",["general price level","population only","production only","exports only"],0],["Money is used as a:",["medium of exchange","weather instrument","farm tool","building material"],0],["A tax is paid to:",["government","only traders","farmers only","students"],0],["Production means:",["creation of goods and services","buying only","saving only","borrowing only"],0],["An entrepreneur organizes:",["factors of production","only consumers","only students","only voters"],0],["Opportunity cost is the:",["next best alternative forgone","total money earned","tax paid","price of goods"],0],["Which is a factor of production?",["land","price","tax","inflation"],0]
+],
+Geography:[
+["The Earth is approximately:",["spherical","square","flat","triangular"],0],["The line dividing Earth into north and south is:",["Equator","Prime Meridian","Tropic of Cancer","Arctic Circle"],0],["A map is used to show:",["places and features","only weather","only people","only animals"],0],["The Prime Meridian passes through:",["Greenwich","Kano","Lagos","Cairo"],0],["Rainfall is a form of:",["precipitation","evaporation","erosion","weathering"],0],["A river generally flows from:",["higher to lower land","lower to higher land","sea to mountain","desert to cloud"],0],["Water changing to vapour is:",["evaporation","condensation","freezing","melting"],0],["The largest ocean is the:",["Pacific Ocean","Atlantic Ocean","Indian Ocean","Arctic Ocean"],0],["A mountain is a:",["high landform","river","lake","plain"],0],["Weather describes conditions over:",["a short period","thousands of years","only oceans","only deserts"],0],["Climate refers to average weather over:",["a long period","one minute","one hour","one day only"],0],["A desert generally receives:",["little rainfall","heavy rainfall","daily snow","constant storms"],0]
+],
+Commerce:[
+["Commerce involves:",["distribution of goods and services","only farming","only teaching","only medicine"],0],["Buying and selling is called:",["trade","production","consumption","transport"],0],["A retailer sells mainly to:",["final consumers","manufacturers only","wholesalers only","government only"],0],["A wholesaler buys goods in:",["large quantities","tiny quantities","one item only","no quantity"],0],["Advertising helps to:",["inform consumers","destroy goods","stop trade","reduce information"],0],["Transport helps move:",["people and goods","only money","only buildings","only laws"],0],["Insurance provides protection against:",["certain risks","all profits","all taxes","all prices"],0],["A bank is a financial:",["institution","farm","school","factory"],0],["Import means goods brought:",["into a country","out of a country","within a farm","to a school"],0],["Export means goods sent:",["out of a country","into a country","to a farm","to a school"],0],["A business owned by one person is:",["sole proprietorship","partnership","company","cooperative"],0],["A partnership is owned by:",["two or more people","one person only","government only","customers only"],0]
+],
+Accounting:[
+["Accounting records:",["financial transactions","weather","population","sports"],0],["Assets are:",["resources owned by a business","debts only","expenses only","losses only"],0],["Liabilities are:",["amounts owed","cash owned","profit","sales"],0],["Capital represents:",["owner's investment","business debt","expense","loss"],0],["A transaction is first recorded in the:",["journal","balance sheet","ledger only","invoice"],0],["A ledger contains:",["accounts","weather records","maps","poems"],0],["Profit occurs when revenue is greater than:",["expenses","assets","capital","cash"],0],["A balance sheet shows:",["financial position","only sales","only purchases","only expenses"],0],["Cash is classified as an:",["asset","liability","expense","income"],0],["Rent paid by a business is an:",["expense","asset","capital","liability"],0],["Sales are normally treated as:",["revenue","liability","expense","asset"],0],["The accounting equation is:",["Assets = Capital + Liabilities","Assets = Expenses + Sales","Capital = Sales + Expenses","Liabilities = Assets + Sales"],0]
+],
+CRS:[
+["The Bible is the sacred book of:",["Christians","Muslims","Hindus","Buddhists"],0],["According to Christian teaching, Jesus was born in:",["Bethlehem","Jerusalem","Nazareth","Cairo"],0],["The first book of the Bible is:",["Genesis","Exodus","Matthew","Psalms"],0],["The last book of the Bible is:",["Revelation","Genesis","Acts","Romans"],0],["The Ten Commandments are associated with:",["Moses","David","Paul","Peter"],0],["Jesus taught his followers to:",["love one another","hate others","avoid kindness","seek revenge"],0],["The first four books of the New Testament are:",["Gospels","Psalms","Prophets","Letters"],0],["Christian prayer is communication with:",["God","government","teachers","traders"],0],["An important Christian virtue is:",["love","hatred","greed","dishonesty"],0],["The New Testament contains teachings about:",["Jesus Christ and early Christianity","only farming","only geography","only mathematics"],0],["Forgiveness is encouraged in:",["Christian teaching","only business","only politics","only science"],0],["Christians commonly worship in a:",["church","market","laboratory","stadium"],0]
+],
+IRS:[
+["The holy book of Islam is the:",["Qur'an","Bible","Torah","Psalms"],0],["The first pillar of Islam is:",["Shahadah","Zakah","Sawm","Hajj"],0],["Muslims perform five daily:",["prayers","fasts","pilgrimages","charities"],0],["Fasting during Ramadan is called:",["Sawm","Zakah","Hajj","Shahadah"],0],["Zakah is a form of:",["obligatory charity","prayer","fasting","pilgrimage"],0],["Hajj is pilgrimage to:",["Makkah","Cairo","Kano","London"],0],["The Islamic calendar is based mainly on:",["the lunar cycle","the solar year only","the seasons only","the week"],0],["The month of obligatory fasting is:",["Ramadan","Muharram","Rajab","Shawwal"],0],["Muslims face the direction of the Ka'bah during:",["Salah","trade only","sleep only","travel only"],0],["The mosque is a place of:",["worship","farming","manufacturing","politics only"],0],["Islam teaches believers to:",["be honest","be dishonest","steal","oppress others"],0],["'As-salamu alaykum' expresses:",["peace","anger","fear","business"],0]
+]
+};
+
+
+const ALL_SUBJECTS = ["English","Agricultural Science","Arabic","Art","Biology","Chemistry","Christian Religious Studies","Commerce","Computer Studies","Economics","French","Geography","Government","Hausa","History","Home Economics","Igbo","Islamic Studies","Literature in English","Mathematics","Music","Physical and Health Education","Physics","Principles of Accounts","Yoruba"];
+
+function makePracticeQuestions(subject){
+  return Array.from({length:12},(_,i)=>[
+    `${subject} Practice Question ${i+1}: Choose the best answer.`,
+    ["Option A","Option B","Option C","Option D"],0
+  ]);
+}
+ALL_SUBJECTS.forEach(s=>{ if(!questionBank[s]) questionBank[s]=makePracticeQuestions(s); });
+
+let studentName="",selectedSubjects=[],currentSubjectIndex=0,currentSubject="",questions=[],
+currentQuestion=0,score=0,subjectScores={},answeredState=[],timeLeft=120,timer=null;
+
+function show(id){document.getElementById(id).style.display="block"}
+function hide(id){document.getElementById(id).style.display="none"}
+
+const PAYSTACK_PUBLIC_KEY = "PASTE_YOUR_PUBLIC_KEY_HERE";
+function showPremiumPlan(period,price){
+ const amountMap={"₦700":70000,"₦1,700":170000,"₦2,500":250000};
+ const email=prompt("Enter your email address:");
+ if(!email)return;
+ if(PAYSTACK_PUBLIC_KEY==="PASTE_YOUR_PUBLIC_KEY_HERE"){alert("Add your Paystack Public Key first.");return;}
+ const popup=new Paystack();
+ popup.checkout({key:PAYSTACK_PUBLIC_KEY,email:email,amount:amountMap[price],currency:"NGN",metadata:{custom_fields:[{display_name:"Student Name",variable_name:"student_name",value:studentName||"Student"},{display_name:"Premium Plan",variable_name:"premium_plan",value:period}]},onSuccess:function(transaction){document.getElementById("premiumNote").textContent="Payment successful. Reference: "+(transaction.reference||transaction.trxref||"");},onCancel:function(){document.getElementById("premiumNote").textContent="Payment cancelled.";},onError:function(){document.getElementById("premiumNote").textContent="Payment could not be opened. Try again.";}});
+}
+function showSchoolNote(){
+ document.getElementById("schoolNote").textContent =
+ "School/CBT Centre dashboard is planned for the next stage: teacher login, student accounts, exams and class results.";
+}
+function setDifficulty(d){difficulty=d;document.getElementById("difficultyNote").textContent=d+" selected · "+(TIME_BY_DIFFICULTY[d]/60)+" minute(s) per subject";}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function prepareQuestions(subject){return shuffle(questionBank[subject].map(q=>{const pairs=q[1].map((text,i)=>({text,correct:i===q[2]}));shuffle(pairs);return [q[0],pairs.map(x=>x.text),pairs.findIndex(x=>x.correct)];})).slice(0,QUESTION_COUNT);}
+function showPremium(){document.getElementById("premiumModal").style.display="block";}
+function closePremium(){document.getElementById("premiumModal").style.display="none";}
+function payPremium(plan){const email=document.getElementById("premiumEmail").value.trim();if(!email||!email.includes("@")){document.getElementById("premiumMessage").textContent="Saka email mai inganci.";return;}if(PAYSTACK_PUBLIC_KEY.includes("PASTE_YOUR")){document.getElementById("premiumMessage").textContent="An shirya Paystack; sai ka saka LIVE PUBLIC KEY naka.";return;}if(typeof PaystackPop==="undefined"){document.getElementById("premiumMessage").textContent="Paystack bai loda ba. Duba internet.";return;}const plans={"7days":70000,"30days":170000,"2months":250000};const popup=new PaystackPop();popup.newTransaction({key:PAYSTACK_PUBLIC_KEY,email,amount:plans[plan],currency:"NGN",metadata:{product:"JAMB Practice Premium",plan},onSuccess:t=>{document.getElementById("premiumMessage").textContent="An kammala biyan kudin. Reference: "+(t.reference||"");},onCancel:()=>{document.getElementById("premiumMessage").textContent="An soke payment.";}});}
+function showExplanation(){const q=questions[currentQuestion];if(!q)return;if(!answeredState[currentQuestion]){document.getElementById("explanation").textContent="Da farko ka zabi answer.";return;}if(explanationUses>=FREE_EXPLANATIONS&&!localStorage.getItem("jambPremiumActive")){document.getElementById("explanation").textContent="Ka kai free explanations 3. Ka shiga Premium domin ci gaba.";showPremium();return;}if(!localStorage.getItem("jambPremiumActive"))explanationUses++,localStorage.setItem("jambExplanationUses",explanationUses);document.getElementById("explanation").textContent="Amsar daidai ita ce: "+q[1][q[2]]+". Wannan ita ce zabin da aka sa a matsayin correct answer a question bank.";}
+function openSubjects(){
+  const n=document.getElementById("studentName").value.trim();
+  if(!n){alert("Please enter your name.");return}
+  studentName=n; hide("home"); show("subjectsPage");
+}
+
+function startExam(){
+  selectedSubjects=[...document.querySelectorAll(".subjectCheck:checked")].map(x=>x.value);
+  if(selectedSubjects.length!==4){
+    document.getElementById("selectionMessage").textContent="Please select exactly 4 subjects.";
+    return;
+  }
+  document.getElementById("selectionMessage").textContent="";
+  currentSubjectIndex=0; subjectScores={};
+  hide("subjectsPage"); show("quiz");
+  document.getElementById("studentDisplay").textContent="Student: "+studentName;
+  loadSubject();
+}
+
+function loadSubject(){
+  currentSubject=selectedSubjects[currentSubjectIndex];
+  questions=questionBank[currentSubject];
+  currentQuestion=0; score=0; timeLeft=TIME_PER_SUBJECT;
+  answeredState=Array(questions.length).fill(false);
+  clearInterval(timer);
+  document.getElementById("subjectName").textContent=currentSubject;
+  document.getElementById("subjectProgress").textContent=
+    "Subject "+(currentSubjectIndex+1)+" of "+selectedSubjects.length;
+  timer=setInterval(updateTimer,1000);
+  renderQuestion();
+  updateTimer();
+}
+
+function renderQuestion(){
+  const q=questions[currentQuestion];
+  document.getElementById("questionText").textContent=q[0];
+  document.getElementById("progress").textContent=
+    "Question "+(currentQuestion+1)+" of "+questions.length;
+  document.getElementById("score").textContent="Score: "+score+"/"+questions.length;
+  document.getElementById("message").textContent="";
+  document.getElementById("explanation").textContent="";
+
+  const answers=document.getElementById("answers");
+  answers.innerHTML="";
+  q[1].forEach((text,i)=>{
+    const b=document.createElement("button");
+    b.className="answer";
+    b.textContent=String.fromCharCode(65+i)+". "+text;
+    b.disabled=answeredState[currentQuestion];
+    b.onclick=()=>checkAnswer(i,b);
+    answers.appendChild(b);
+  });
+
+  document.getElementById("nextButton").textContent=
+    currentQuestion===questions.length-1 ? "Finish Subject 🏆" : "Next Question";
+  renderNavigation();
+}
+
+function checkAnswer(index,button){
+  if(answeredState[currentQuestion])return;
+  answeredState[currentQuestion]=true;
+  const correct=questions[currentQuestion][2];
+  if(index===correct){
+    score++;
+    document.getElementById("message").textContent="Correct! 🎉";
+  }else{
+    document.getElementById("message").textContent="Wrong! ❌";
+  }
+  document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+  document.getElementById("score").textContent="Score: "+score+"/"+questions.length;
+  renderNavigation();
+}
+
+function goToQuestion(i){
+  currentQuestion=i;
+  renderQuestion();
+}
+
+function renderNavigation(){
+  const nav=document.getElementById("questionNav");
+  nav.innerHTML="";
+  questions.forEach((_,i)=>{
+    const b=document.createElement("button");
+    b.textContent=i+1;
+    if(i===currentQuestion)b.classList.add("current");
+    if(answeredState[i])b.classList.add("answered");
+    b.onclick=()=>goToQuestion(i);
+    nav.appendChild(b);
+  });
+}
+
+function nextQuestion(){
+  if(!answeredState[currentQuestion]){
+    document.getElementById("message").textContent="Please choose an answer first.";
+    return;
+  }
+  if(currentQuestion===questions.length-1){finishSubject();return}
+  currentQuestion++;
+  renderQuestion();
+}
+
+function finishSubject(){
+  clearInterval(timer);
+  subjectScores[currentSubject]=score;
+  currentSubjectIndex++;
+  if(currentSubjectIndex<selectedSubjects.length)loadSubject();
+  else finishExam();
+}
+
+function updateTimer(){
+  const m=Math.floor(timeLeft/60);
+  const s=String(timeLeft%60).padStart(2,"0");
+  document.getElementById("timer").textContent="Time: "+m+":"+s;
+  if(timeLeft<=0){clearInterval(timer);finishSubject();return}
+  timeLeft--;
+}
+
+function finishExam(){
+  clearInterval(timer); hide("quiz"); show("result");
+  document.getElementById("finalStudent").textContent="Student: "+studentName;
+  let total=0,html="";
+  selectedSubjects.forEach(s=>{
+    const sc=subjectScores[s]||0; total+=sc;
+    html+=`<div class="result-row"><span>${s}</span><strong>${sc}/12</strong></div>`;
+  });
+  const max=selectedSubjects.length*12;
+  const pct=(total/max)*100;
+  let grade=pct>=70?"Excellent 🏆":pct>=60?"Very Good 👍":pct>=50?"Good 🙂":pct>=40?"Fair":"Keep Practicing 💪";
+  document.getElementById("totalScore").textContent=`Total Score: ${total}/${max}`;
+  document.getElementById("percentage").textContent=`Percentage: ${pct.toFixed(1)}%`;
+  document.getElementById("grade").textContent=`Performance: ${grade}`;
+  document.getElementById("subjectResults").innerHTML=html;
+}
+
+function restartExam(){
+  hide("result");show("quiz");currentSubjectIndex=0;subjectScores={};loadSubject();
+}
+
+function goHome(){
+  clearInterval(timer);
+  hide("subjectsPage");hide("quiz");hide("result");show("home");
+  document.querySelectorAll(".subjectCheck").forEach(x=>x.checked=false);
+  document.getElementById("studentName").value="";
+  selectedSubjects=[];
+}
+</script>
+</body>
+</html>
